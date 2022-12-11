@@ -2,12 +2,12 @@
 
 include './database/database.php';
 
-if (!empty($_POST)) {
+if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
     if (!empty($_POST['name']) && !empty($_POST['content'])) {
 
-        $title = htmlspecialchars($_POST['name']);
-        $content = htmlspecialchars($_POST['content']);
+        $title = strip_tags($_POST['name']);
+        $content = strip_tags($_POST['content']);
  
         $query = $database->prepare('INSERT INTO todo (name, content) VALUES (:name, :content)');
 
@@ -37,7 +37,7 @@ if (!empty($_POST)) {
         <input type="text" name="name" id="name">
         <label for="content">Détails</label>
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
-        <button type="submit">Ajouter</button>
+        <button type="submit">Créer</button>
     </form>
 </body>
 </html>

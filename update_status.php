@@ -1,8 +1,5 @@
 <?php 
 
-// Le fichier update_status.php récupérera l'id de la todo à modifier en GET, et modifiera le status de la todo correspondante en BDD
-
-// On commence par inclure le fichier de connexion à la BDD
 include './database/database.php';
 
 if (!empty($_GET['id'])) {

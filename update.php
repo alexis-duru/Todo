@@ -4,11 +4,11 @@ include './database/database.php';
 
 if (!empty($_POST)) {
 
-    if (!empty($_POST['name']) && !empty($_POST['content'])) {
+    if(!empty($_POST['name']) && !empty($_POST['content'])) {
 
-        $title = htmlspecialchars($_POST['name']);
-        $content = htmlspecialchars($_POST['content']);
-        $id = htmlspecialchars($_POST['id']);
+        $title = strip_tags($_POST['name']);
+        $content = strip_tags($_POST['content']);
+        $id = strip_tags($_POST['id']);
 
         $query = $database->prepare('UPDATE todo SET name = :name, content = :content WHERE id = :id');
 
@@ -23,7 +23,7 @@ if (!empty($_POST)) {
 }
 
 if (!empty($_GET['id'])) {
-    $id = htmlspecialchars($_GET['id']);
+    $id = strip_tags($_GET['id']);
 
     $query = $database->prepare('SELECT * FROM todo WHERE id = :id');
 
