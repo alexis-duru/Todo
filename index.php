@@ -8,8 +8,6 @@ $query = $database->query('SELECT * FROM todo ORDER BY id DESC');
 
 $todos = $query->fetchAll();
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -39,19 +37,27 @@ $todos = $query->fetchAll();
                             <?php else : ?>
                                 <h2 style="text-decoration: line-through;"><?= $todo['name'] ?></h2>
                             <?php endif; ?>
-                            <p class="todo__element"><?= $todo['content'] ?></p>
-                        </td>
-                        <td>
-                            <a href="update.php?id=<?= $todo['id'] ?>">Modifier</a>
-                            <a href="delete.php?id=<?= $todo['id'] ?>">Supprimer</a>
-                            
-                            <a href="update_status.php?id=<?= $todo['id'] ?>">Valider</a>
 
                             <?php if ($todo['done'] == 0) : ?>
-                                <p class="status" style="color: red;">En cours</p>
+                                <p class="todo__element"><?= $todo['content'] ?></p>
                             <?php else : ?>
-                                <p class="status" style="color: green;">Done</p>
+                                <p class="todo__element" style="text-decoration: line-through;"><?= $todo['content'] ?></p>
                             <?php endif; ?>
+                        </td>
+                        <td>
+                            <div class="wrapper_todos_task">
+                                <a href="update.php?id=<?= $todo['id'] ?>">Modifier</a>
+                                <a href="delete.php?id=<?= $todo['id'] ?>">Supprimer</a>
+                                <a href="update_status.php?id=<?= $todo['id'] ?>">Terminer</a>
+                            </div>
+
+                            <div class="wrapper_status">
+                                <?php if ($todo['done'] == 0) : ?>
+                                    <p>Status :</p><p class="status" style="color: red;">À faire</p>
+                                <?php else : ?>
+                                    <p>Status :</p><p class="status" style="color: green;">Terminée</p>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                 </table>

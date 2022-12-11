@@ -12,7 +12,7 @@
 </head>
 <body>
     <footer>
-       <h1>Alexis Duru - 2022</h1>
+    
     </footer>
 </body>
 </html>

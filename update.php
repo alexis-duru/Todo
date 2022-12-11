@@ -45,14 +45,14 @@ if (!empty($_GET['id'])) {
     <title>Todo List - Update</title>
 </head>
 <body>
-    <p>Update</p>
+    <p>Modifier</p>
     <form action="" method="POST">
         <input type="hidden" name="id" value="<?= $todo['id'] ?>">
-        <label for="title">Title</label>
+        <label for="title">Titre</label>
         <input type="text" name="name" id="name" value="<?= $todo['name'] ?>">
-        <label for="content">Content</label>
+        <label for="content">Détails</label>
         <textarea name="content" id="content" cols="30" rows="10"><?= $todo['content'] ?></textarea>
-        <button type="submit">Update</button>
+        <button type="submit">Modifier</button>
     </form>
 </body>
 

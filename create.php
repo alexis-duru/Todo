@@ -33,11 +33,11 @@ if (!empty($_POST)) {
 <body>
     <p>Create</p>
     <form action="" method="POST">
-        <label for="title">Title</label>
+        <label for="title">Titre</label>
         <input type="text" name="name" id="name">
-        <label for="content">Content</label>
+        <label for="content">Détails</label>
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
-        <button type="submit">Create</button>
+        <button type="submit">Ajouter</button>
     </form>
 </body>
 </html>
