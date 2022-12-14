@@ -2,20 +2,19 @@
 
 include './database/database.php';
 
-if (!empty($_POST)) {
+if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
-    if(!empty($_POST['name']) && !empty($_POST['content'])) {
+    if (!empty($_POST['name']) && !empty($_POST['content'])) {
 
         $title = strip_tags($_POST['name']);
         $content = strip_tags($_POST['content']);
-        $id = strip_tags($_POST['id']);
 
         $query = $database->prepare('UPDATE todo SET name = :name, content = :content WHERE id = :id');
 
         $query->execute([
             'name' => $title,
             'content' => $content,
-            'id' => $id
+            'id' => $_GET['id']
         ]);
 
         header('Location: ./index.php');
@@ -23,16 +22,30 @@ if (!empty($_POST)) {
 }
 
 if (!empty($_GET['id'])) {
-    $id = strip_tags($_GET['id']);
 
     $query = $database->prepare('SELECT * FROM todo WHERE id = :id');
 
     $query->execute([
-        'id' => $id
+        'id' => $_GET['id']
     ]);
 
     $todo = $query->fetch();
+
+    if (!empty($todo)) {
+
+        $name = $todo['name'];
+        $content = $todo['content'];
+
+    } else {
+
+        header('Location: ./index.php');
+    }
+
+} else {
+
+    header('Location: ./index.php');
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -47,11 +60,10 @@ if (!empty($_GET['id'])) {
 <body>
     <p>Modifier</p>
     <form action="" method="POST">
-        <input type="hidden" name="id" value="<?= $todo['id'] ?>">
         <label for="title">Titre</label>
-        <input type="text" name="name" id="name" value="<?= $todo['name'] ?>">
+        <input type="text" name="name" id="name" value="<?= $name ?>">
         <label for="content">Détails</label>
-        <textarea name="content" id="content" cols="30" rows="10"><?= $todo['content'] ?></textarea>
+        <textarea name="content" id="content" cols="30" rows="10"><?= $content ?></textarea>
         <button type="submit">Modifier</button>
     </form>
 </body>

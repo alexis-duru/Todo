@@ -1,6 +1,7 @@
 <?php 
 
 include './database/database.php';
+// création de la requête post tout en vérifiant que les champs ne sont pas vides et que les données sont bien envoyées avec isset et empty, et vérifier les caractères spéciaux avec strip_tags
 
 if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
@@ -8,14 +9,14 @@ if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
         $title = strip_tags($_POST['name']);
         $content = strip_tags($_POST['content']);
- 
+
         $query = $database->prepare('INSERT INTO todo (name, content) VALUES (:name, :content)');
 
         $query->execute([
             'name' => $title,
             'content' => $content
         ]);
- 
+
         header('Location: ./index.php');
     }
 }
