@@ -1,6 +1,6 @@
 <?php 
 
-include './database/database.php';
+require_once './database/database.php';
 // création de la requête post tout en vérifiant que les champs ne sont pas vides et que les données sont bien envoyées avec isset et empty, et vérifier les caractères spéciaux avec strip_tags
 
 if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {

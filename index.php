@@ -1,8 +1,8 @@
 <?php 
 
-include './layout/header.php';
-include './layout/footer.php';
-include './database/database.php';
+require_once './layout/header.php';
+require_once './layout/footer.php';
+require_once './database/database.php';
 
 $query = $database->query('SELECT * FROM todo ORDER BY id DESC');
 

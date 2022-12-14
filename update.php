@@ -1,6 +1,6 @@
 <?php 
 
-include './database/database.php';
+require_once './database/database.php';
 
 if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
