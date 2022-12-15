@@ -2,23 +2,19 @@
 
 require_once './database/database.php';
 
-if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
-
     if (!empty($_POST['name']) && !empty($_POST['content'])) {
 
-        $title = strip_tags($_POST['name']);
-        $content = strip_tags($_POST['content']);
+        $title = filter_var(strip_tags($_POST['name']), FILTER_SANITIZE_STRING);
+        $content = filter_var(strip_tags($_POST['content']), FILTER_SANITIZE_STRING);
 
         $query = $database->prepare('INSERT INTO todo (name, content) VALUES (:name, :content)');
 
-        $query->execute([
-            'name' => $title,
-            'content' => $content
-        ]);
+        $query->bindParam(':name', $title, PDO::PARAM_STR);  
+        $query->bindParam(':content', $content, PDO::PARAM_STR);
+        $query->execute();
 
         header('Location: ./index.php');
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -31,12 +27,12 @@ if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
     <title>Todo List - Create</title>
 </head>
 <body>
-    <h1>Create</h1>
+    <p>Create</p>
     <form action="" method="POST">
         <label for="title">Titre</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" required minlength="1"  maxlength="30">
         <label for="content">Détails</label>
-        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <textarea name="content" id="content" cols="30" rows="10" required minlength="1" maxlength="50"></textarea>
         <button type="submit">Créer</button>
     </form>
 </body>

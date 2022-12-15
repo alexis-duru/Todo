@@ -20,3 +20,8 @@
 
 * ` Après un create, update ou delete, il faut une redirection automatique vers index.php `
 
+<!-- catch (\Throwable $th) {
+    echo "<p style='font-weight:bold; font-size:40px; display:flex; align-item:center; justify-content:center'>
+            Une erreur est survenue, l'élèment n'a pas pu être modifié 
+        </p>";
+} -->

@@ -2,50 +2,47 @@
 
 require_once './database/database.php';
 
-if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
+    if (!empty($_POST) && !empty($_POST['name']) && !empty($_POST['content'])) {
 
-    if (!empty($_POST['name']) && !empty($_POST['content'])) {
+        if (!empty($_POST['name']) && !empty($_POST['content'])) {
+    
+            $title = filter_var(strip_tags($_POST['name']), FILTER_SANITIZE_STRING);
+            $content = filter_var(strip_tags($_POST['content']), FILTER_SANITIZE_STRING);
+    
+            $query = $database->prepare('UPDATE todo SET name = :name, content = :content WHERE id = :id');
 
-        $title = strip_tags($_POST['name']);
-        $content = strip_tags($_POST['content']);
-
-        $query = $database->prepare('UPDATE todo SET name = :name, content = :content WHERE id = :id');
-
-        $query->execute([
-            'name' => $title,
-            'content' => $content,
-            'id' => $_GET['id']
-        ]);
-
-        header('Location: ./index.php');
+            $query->bindParam(':name', $title, PDO::PARAM_STR);  
+            $query->bindParam(':content', $content, PDO::PARAM_STR);
+            $query->bindParam(':id', $_GET['id']);
+            $query->execute();
+    
+            header('Location: ./index.php');
+        }
     }
-}
+    
+    if (!empty($_GET['id'])) {
+    
+        $query = $database->prepare('SELECT * FROM todo WHERE id = :id');
 
-if (!empty($_GET['id'])) {
-
-    $query = $database->prepare('SELECT * FROM todo WHERE id = :id');
-
-    $query->execute([
-        'id' => $_GET['id']
-    ]);
-
-    $todo = $query->fetch();
-
-    if (!empty($todo)) {
-
-        $name = $todo['name'];
-        $content = $todo['content'];
-
+        $query->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+        $query->execute();
+    
+        $todo = $query->fetch();
+    
+        if (!empty($todo)) {
+    
+            $name = $todo['name'];
+            $content = $todo['content'];
+    
+        } else {
+    
+            header('Location: ./index.php');
+        }
+    
     } else {
-
+    
         header('Location: ./index.php');
     }
-
-} else {
-
-    header('Location: ./index.php');
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -61,9 +58,9 @@ if (!empty($_GET['id'])) {
     <h1>Modifier</h1>
     <form action="" method="POST">
         <label for="title">Titre</label>
-        <input type="text" name="name" id="name" value="<?= $name ?>">
+        <input type="text" name="name" id="name" value="<?= $name ?>" required minlength="1"  maxlength="30">
         <label for="content">Détails</label>
-        <textarea name="content" id="content" cols="30" rows="10"><?= $content ?></textarea>
+        <textarea name="content" id="content" required cols="30" rows="10" required minlength="1"  maxlength="50"><?= $content ?></textarea>
         <button type="submit">Modifier</button>
     </form>
 </body>

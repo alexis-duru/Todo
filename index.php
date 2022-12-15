@@ -1,12 +1,37 @@
 <?php 
 
 require_once './layout/header.php';
-require_once './layout/footer.php';
 require_once './database/database.php';
 
-$query = $database->query('SELECT * FROM todo ORDER BY id DESC');
+    $query = $database->query('SELECT * FROM todo ORDER BY id DESC');
 
-$todos = $query->fetchAll();
+    $todos = $query->fetchAll();
+?>
+
+<?php 
+
+if (!empty($_POST['search'])) {
+    $search = filter_var(strip_tags($_POST['search']), FILTER_SANITIZE_STRING);
+
+    $query = $database->prepare('SELECT * FROM todo WHERE name LIKE :search');
+    $query->bindParam(':search', $search, PDO::PARAM_STR);
+    $query->execute();
+
+    $todos = $query->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $query = $database->prepare('SELECT * FROM todo');
+    $query->execute();
+
+    $todos = $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+if (isset($_POST['reset'])) {
+    header('Location: ./index.php');
+}
+
+?>
+
+<?php 
 
 ?>
 
@@ -24,8 +49,10 @@ $todos = $query->fetchAll();
     <section>
         <div class="title">
             <h1>Todo List</h1>
-            <a href="create.php">Ajouter un élèment à la todo-list</a>
+            <a class="submit-button" href="create.php">Ajouter un élèment à la todo-list</a>
         </div>
+
+        <?php include('./layout/filter.php') ?>
     
         <?php foreach ($todos as $todo) : ?>
             <div class="todo">
@@ -63,7 +90,12 @@ $todos = $query->fetchAll();
                 </table>
             </div>
         <?php endforeach; ?>
+
+        <?php include('./layout/pagination.php') ?>
+
+
     </section>
 </body>
 </html>
+
 
