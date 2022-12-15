@@ -58,7 +58,7 @@ if (!empty($_GET['id'])) {
     <title>Todo List - Update</title>
 </head>
 <body>
-    <p>Modifier</p>
+    <h1>Modifier</h1>
     <form action="" method="POST">
         <label for="title">Titre</label>
         <input type="text" name="name" id="name" value="<?= $name ?>">
