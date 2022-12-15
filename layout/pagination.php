@@ -2,7 +2,7 @@
 
 require_once './database/database.php';
 
-$query = $database->prepare('SELECT * FROM todo LIMIT 5');
+$query = $database->prepare('SELECT * FROM todo LIMIT 3');
 
 $query->execute();
 
@@ -46,7 +46,7 @@ $pages = ceil($nbTodos / $limit)
 </head>
 <body>
     <div class="pagination">
-        <p>Page : </p>
+        <p>Page :</p>
         <?php for ($page = 1; $page <= $pages; $page++) : ?>
             <a href="index.php?page=<?= $page ?>"><?= $page ?></a>
         <?php endfor; ?>

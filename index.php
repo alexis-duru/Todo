@@ -28,11 +28,6 @@ if (!empty($_POST['search'])) {
 if (isset($_POST['reset'])) {
     header('Location: ./index.php');
 }
-
-?>
-
-<?php 
-
 ?>
 
 <!DOCTYPE html>
@@ -90,9 +85,8 @@ if (isset($_POST['reset'])) {
                 </table>
             </div>
         <?php endforeach; ?>
-
-        <?php include('./layout/pagination.php') ?>
-
+        
+        <?php include './layout/pagination.php' ?>
 
     </section>
 </body>
