@@ -80,7 +80,7 @@ $pages = ceil($nbTodos / $limit)
     <section>
         <div class="title">
             <h1>Todo List</h1>
-            <a class="submit-button" href="create.php">Ajouter un élèment à la todo-list</a>
+            <a class="submit-button" href="create.php">+ Ajouter un élèment à la todo-list</a>
         </div>
 
         <?php include('./layout/filter.php') ?>
@@ -121,6 +121,8 @@ $pages = ceil($nbTodos / $limit)
                 </table>
             </div>
         <?php endforeach; ?>
+
+        <?php include './layout/pagination.php' ?>
     </section>
 </body>
 </html>
