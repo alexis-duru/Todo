@@ -30,6 +30,42 @@ if (isset($_POST['reset'])) {
 }
 ?>
 
+<?php
+
+$query = $database->prepare('SELECT * FROM todo LIMIT 3');
+
+$query->execute();
+
+$todos = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$page = 1;
+
+if (isset($_GET['page']) && !empty($_GET['page'])) {
+    $page = (int) strip_tags($_GET['page']);
+}
+
+$limit = 3;
+
+$offset = ($page - 1) * $limit;
+
+$query = $database->prepare('SELECT * FROM todo LIMIT :limit OFFSET :offset');
+
+$query->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+$query->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+$query->execute();
+
+$todos = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$query = $database->query('SELECT COUNT(*) FROM todo');
+
+$nbTodos = (int) $query->fetchColumn();
+
+$pages = ceil($nbTodos / $limit)
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,9 +121,6 @@ if (isset($_POST['reset'])) {
                 </table>
             </div>
         <?php endforeach; ?>
-        
-        <?php include './layout/pagination.php' ?>
-
     </section>
 </body>
 </html>
